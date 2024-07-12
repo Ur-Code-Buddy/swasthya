@@ -7,12 +7,12 @@ This repository contains an Express.js application that provides the following A
 ## API Endpoints
 
 1. **Register User**
-   - Endpoint: `POST /register`
+   - Endpoint: `POST /swasthya/api/register`
    - Registers a new user in the database.
 
    **Request:**
    - Method: `POST`
-   - URL: `/register`
+   - URL: `/swasthya/api/register`
    - Body:
      ```json
      {
@@ -32,12 +32,12 @@ This repository contains an Express.js application that provides the following A
      ```
 
 2. **Add Appointment**
-   - Endpoint: `POST /appointments`
+   - Endpoint: `POST /swasthya/api/appointments`
    - Adds a new appointment for an authenticated user.
 
    **Request:**
    - Method: `POST`
-   - URL: `/appointments`
+   - URL: `/swasthya/api/appointments`
    - Body:
      ```json
      {
@@ -62,12 +62,12 @@ This repository contains an Express.js application that provides the following A
      ```
 
 3. **Fetch Appointments**
-   - Endpoint: `GET /appointments`
+   - Endpoint: `GET /swasthya/api/appointments`
    - Retrieves all appointments for an authenticated user.
 
    **Request:**
    - Method: `GET`
-   - URL: `/appointments`
+   - URL: `/swasthya/api/appointments`
    - Headers:
      ```
      username: your_username

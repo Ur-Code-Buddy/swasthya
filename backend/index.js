@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI);
 
-app.use('/api', apiRoutes);
+app.use('/swasthya/api', apiRoutes);
 
 app.get('/keep-alive', (req, res) => {
   res.send('Server is awake and running.');
