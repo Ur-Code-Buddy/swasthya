@@ -6,7 +6,7 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-app.use(cors()); // Enable CORS for all routes
+app.use(cors()); //CORS for all routes
 
 app.use(bodyParser.json());
 
@@ -30,7 +30,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  // Keep-alive ping every 14 minutes
+  // ping every 14 minutes
   setInterval(async () => {
     try {
       await axios.get('http://localhost:3000/keep-alive');
@@ -38,5 +38,5 @@ app.listen(PORT, () => {
     } catch (error) {
       console.error('Error pinging server:', error.message);
     }
-  }, 1 * 60 * 1000); // 14 minutes interval
+  }, 14 * 60 * 1000); // 14 minutes interval
 });
