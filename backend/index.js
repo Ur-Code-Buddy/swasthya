@@ -29,14 +29,4 @@ app.get("/",(req,res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-
-  // ping every 14 minutes
-  setInterval(async () => {
-    try {
-      await axios.get('http://localhost:3000/keep-alive');
-      console.log('Ping sent to keep server alive.');
-    } catch (error) {
-      console.error('Error pinging server:', error.message);
-    }
-  }, 14 * 60 * 1000); // 14 minutes interval
 });
