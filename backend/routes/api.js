@@ -15,18 +15,6 @@ const appointmentSchema = z.object({
   doctor: z.string().min(1)
 });
 
-// API1: Create new user
-router.post('/register', async (req, res) => {
-  try {
-    const userData = userSchema.parse(req.body);
-    const user = new User(userData);
-    await user.save();
-    res.status(201).send({ message: 'User registered successfully' });
-  } catch (error) {
-    res.status(400).send({ error: error.errors || error.message });
-  }
-});
-
 // Middleware for authentication
 const authenticate = async (req, res, next) => {
   const { username, password } = req.headers;
@@ -41,6 +29,19 @@ const authenticate = async (req, res, next) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+
+// API1: Create new user
+router.post('/register', async (req, res) => {
+  try {
+    const userData = userSchema.parse(req.body);
+    const user = new User(userData);
+    await user.save();
+    res.status(201).send({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(400).send({ error: error.errors || error.message });
+  }
+});
 
 // API2: Add appointment
 router.post('/appointments', authenticate, async (req, res) => {
