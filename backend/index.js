@@ -1,30 +1,29 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const apiRoutes = require('./routes/api');
 const cors = require('cors');
-const axios = require('axios');
 
 const app = express();
-app.use(cors()); //CORS for all routes
+app.use(cors()); // CORS for all routes
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://admin:baivab2002@cluster0.ezuvzvl.mongodb.net/swasthya', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use('/api', apiRoutes);
 
 app.get('/keep-alive', (req, res) => {
-    res.send('Server is awake and running.');
-  });
+  res.send('Server is awake and running.');
+});
 
-app.get("/",(req,res) => {
-    console.log("keeping alive")
-    res.send("working")
-})
+app.get("/", (req, res) => {
+  console.log("Server is running.");
+  res.send("Server is working.");
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
