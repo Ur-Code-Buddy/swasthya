@@ -2,6 +2,8 @@
 
 This repository contains an Express.js application that provides the following APIs:
 
+## The root URL is : `https://swasthya-gjwn.onrender.com` 
+
 ## API Endpoints
 
 1. **Register User**
