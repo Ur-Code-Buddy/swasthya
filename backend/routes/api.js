@@ -19,6 +19,7 @@ const appointmentSchema = z.object({
 const authenticate = async (req, res, next) => {
   const { username, password } = req.headers;
   try {
+    // Find the user by username and password
     const user = await User.findOne({ username, password });
     if (!user) {
       return res.status(401).send({ message: 'Invalid credentials' });
@@ -30,11 +31,12 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-
 // API1: Create new user
 router.post('/register', async (req, res) => {
   try {
     const userData = userSchema.parse(req.body);
+
+    // Save the user with plain text password
     const user = new User(userData);
     await user.save();
     res.status(201).send({ message: 'User registered successfully' });
@@ -47,7 +49,6 @@ router.post('/register', async (req, res) => {
 router.post('/appointments', authenticate, async (req, res) => {
   try {
     const appointmentData = appointmentSchema.parse(req.body);
-    console.log(appointmentData);
     req.user.appointments.push(appointmentData);
     await req.user.save();
     res.status(201).send({ message: 'Appointment added successfully' });
@@ -61,10 +62,8 @@ router.get('/appointments', authenticate, (req, res) => {
   res.status(200).send(req.user.appointments);
 });
 
-
 // API4: Fetch all appointments for a doctor
 router.get('/doctor-appointments', async (req, res) => {
-  // Hardcoded doctor credentials
   const doctorCredentials = {
     username: 'doctorUsername', // Replace with actual username
     password: 'doctorPassword'  // Replace with actual password
@@ -77,10 +76,8 @@ router.get('/doctor-appointments', async (req, res) => {
   }
 
   try {
-    // Find all users that have appointments with this doctor
     const usersWithAppointments = await User.find({ 'appointments.doctor': username });
 
-    // Extract all appointments for the doctor
     const doctorAppointments = usersWithAppointments.reduce((appointments, user) => {
       const userAppointments = user.appointments.filter(app => app.doctor === username);
       return appointments.concat(userAppointments);
@@ -92,5 +89,22 @@ router.get('/doctor-appointments', async (req, res) => {
   }
 });
 
+// API5: Verify if a user exists
+router.post('/verify-user', async (req, res) => {
+  try {
+    const { username, password } = req.headers;
+    console.log(username, password);
+
+    // Check if the user exists with the given username and password
+    const user = await User.findOne({ username, password });
+    if (user) {
+      res.status(200).send({ success: true, message: 'User exists' });
+    } else {
+      res.status(404).send({ success: false, message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 
 module.exports = router;
