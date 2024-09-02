@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Appointment = require('../models/appointment');
 const { z } = require('zod');
 
 // Zod schemas
@@ -10,9 +11,11 @@ const userSchema = z.object({
 });
 
 const appointmentSchema = z.object({
-  date: z.string().refine(val => !isNaN(Date.parse(val)), "Invalid date format"),
-  description: z.string().min(1),
-  doctor: z.string().min(1)
+  name: z.string().optional(),
+  message: z.string().optional(),
+  doctor: z.string().optional(),
+  timing: z.string().optional(),
+  day: z.string().optional()
 });
 
 // Middleware for authentication
@@ -51,7 +54,6 @@ router.post('/appointments', authenticate, async (req, res) => {
     // Extract the data from the request body
     const { name, message, doctor, timing, day } = req.body;
 
-    // Create the appointment data object
     const appointmentData = {
       name,
       message,
@@ -59,10 +61,8 @@ router.post('/appointments', authenticate, async (req, res) => {
       timing,
       day
     };
-
-    // Push the appointment data to the user's appointments array
-    req.user.appointments.push(appointmentData);
-    await req.user.save();
+    const appointment = new Appointment(appointmentData);
+    await appointment.save();
 
     res.status(201).send({ message: 'Appointment added successfully' });
   } catch (error) {
