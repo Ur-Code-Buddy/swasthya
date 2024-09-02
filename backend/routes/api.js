@@ -51,11 +51,6 @@ router.post('/appointments', authenticate, async (req, res) => {
     // Extract the data from the request body
     const { name, message, doctor, timing, day } = req.body;
 
-    // Validate required fields
-    if (!name || !message || !doctor || !timing || !day) {
-      return res.status(400).send({ error: 'All fields are required.' });
-    }
-
     // Create the appointment data object
     const appointmentData = {
       name,
@@ -71,9 +66,10 @@ router.post('/appointments', authenticate, async (req, res) => {
 
     res.status(201).send({ message: 'Appointment added successfully' });
   } catch (error) {
-    res.status(400).send({ error: error.errors || error.message });
+    res.status(400).send({ error: 'An error occurred while saving the appointment.' });
   }
 });
+
 
 
 // API3: Fetch appointments
