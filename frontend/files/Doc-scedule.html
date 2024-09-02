@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Weekly Schedule</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #2B3035;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .navbar {
+      width: 100%;
+      margin-bottom: 60px;
+      animation: slideInFromTop 1.5s ease-in-out;
+    }
+    @keyframes slideInFromTop {
+      from {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .header-box {
+      background-color: #2B3035;
+      color: rgb(194, 182, 182);
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+      border-radius: 8px;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .schedule-container {
+      background-color: #495057;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 40px auto 1%;
+      width: 90%;
+      animation: zoomIn 2s ease-in-out;
+    }
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .schedule-box {
+      background-color: #212529;
+      border: 1px solid lightslategray;
+      border-radius: 8px;
+      padding: 10px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      height: 100px;
+      text-align: center;
+    }
+    .schedule-box:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      background-color: #212529;
+      color: #5f3d3d;
+      padding: 20px;
+      text-align: center;
+      margin-top: auto;
+      animation: slideInFromBottom 1.5s ease-in-out;
+    }
+    @keyframes slideInFromBottom {
+      from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .modal-content {
+      background-color: #2B3035;
+      color: #fff;
+    }
+    .btn-cancel {
+      background-color: #dc3545;
+      border: none;
+      color: #fff;
+    }
+    .day-nav {
+      margin-bottom: 20px;
+    }
+    .day-nav button {
+      margin-right: 10px;
+      background-color: #212529;
+      border: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Doctor's Weekly Schedule</a>
+</nav>
+
+<div class="header-box">
+  <h1 class="glow-text">Doctor's Appointment Schedule</h1>
+</div>
+
+<div class="container schedule-container">
+  <div class="day-nav d-flex justify-content-center">
+    <button class="btn btn-primary" onclick="showSchedule('monday')">Monday</button>
+    <button class="btn btn-primary" onclick="showSchedule('tuesday')">Tuesday</button>
+    <button class="btn btn-primary" onclick="showSchedule('wednesday')">Wednesday</button>
+    <button class="btn btn-primary" onclick="showSchedule('thursday')">Thursday</button>
+    <button class="btn btn-primary" onclick="showSchedule('friday')">Friday</button>
+    <button class="btn btn-primary" onclick="showSchedule('saturday')">Saturday</button>
+  </div>
+
+  <div id="schedule-content">
+    <!-- Monday Schedule -->
+    <div id="monday" class="schedule-day">
+      <h3>Monday</h3>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal1">
+            <h5>9:00 AM</h5>
+            <p>John Doe</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal2">
+            <h5>9:15 AM</h5>
+            <p>Jane Smith</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal3">
+            <h5>9:30 AM</h5>
+            <p>Paul Allen</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal4">
+            <h5>9:45 AM</h5>
+            <p>Emily Davis</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal5">
+            <h5>10:00 AM</h5>
+            <p>David Wilson</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal6">
+            <h5>10:15 AM</h5>
+            <p>Susan Taylor</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal7">
+            <h5>10:30 AM</h5>
+            <p>Michael Brown</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal8">
+            <h5>10:45 AM</h5>
+            <p>Linda Johnson</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal9">
+            <h5>11:00 AM</h5>
+            <p>Chris Evans</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tuesday Schedule -->
+    <div id="tuesday" class="schedule-day d-none">
+      <h3>Tuesday</h3>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal10">
+            <h5>9:00 AM</h5>
+            <p>Mary Johnson</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal11">
+            <h5>9:15 AM</h5>
+            <p>James Brown</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal12">
+            <h5>9:30 AM</h5>
+            <p>Lisa Clark</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal13">
+            <h5>9:45 AM</h5>
+            <p>Robert Lee</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal14">
+            <h5>10:00 AM</h5>
+            <p>Patricia Green</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal15">
+            <h5>10:15 AM</h5>
+            <p>Christopher King</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal16">
+            <h5>10:30 AM</h5>
+            <p>Anna Scott</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal17">
+            <h5>10:45 AM</h5>
+            <p>Paul Allen</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal18">
+            <h5>11:00 AM</h5>
+            <p>Jane Smith</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repeat the same structure for other days (Wednesday, Thursday, Friday, Saturday) -->
+    <!-- Wednesday Schedule -->
+    <div id="wednesday" class="schedule-day d-none">
+      <h3>Wednesday</h3>
+      <div class="row">
+        <!-- Repeat similar structure for Wednesday -->
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal19">
+            <h5>9:00 AM</h5>
+            <p>Robert Moore</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal20">
+            <h5>9:15 AM</h5>
+            <p>Nancy Davis</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal21">
+            <h5>9:30 AM</h5>
+            <p>Mark Wilson</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal22">
+            <h5>9:45 AM</h5>
+            <p>Carol Martinez</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal23">
+            <h5>10:00 AM</h5>
+            <p>Kevin Rodriguez</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal24">
+            <h5>10:15 AM</h5>
+            <p>Helen Clark</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal25">
+            <h5>10:30 AM</h5>
+            <p>Daniel Lewis</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal26">
+            <h5>10:45 AM</h5>
+            <p>Alice Walker</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal27">
+            <h5>11:00 AM</h5>
+            <p>Mary Hall</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Thursday Schedule -->
+    <div id="thursday" class="schedule-day d-none">
+      <h3>Thursday</h3>
+      <div class="row">
+        <!-- Repeat similar structure for Thursday -->
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal28">
+            <h5>9:00 AM</h5>
+            <p>Margaret Wright</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal29">
+            <h5>9:15 AM</h5>
+            <p>Thomas Harris</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal30">
+            <h5>9:30 AM</h5>
+            <p>Dorothy Lee</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal31">
+            <h5>9:45 AM</h5>
+            <p>Matthew Young</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal32">
+            <h5>10:00 AM</h5>
+            <p>Anthony King</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal33">
+            <h5>10:15 AM</h5>
+            <p>Betty Scott</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal34">
+            <h5>10:30 AM</h5>
+            <p>Shirley Green</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal35">
+            <h5>10:45 AM</h5>
+            <p>Jason Adams</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal36">
+            <h5>11:00 AM</h5>
+            <p>Angela Baker</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Friday Schedule -->
+    <div id="friday" class="schedule-day d-none">
+      <h3>Friday</h3>
+      <div class="row">
+        <!-- Repeat similar structure for Friday -->
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal37">
+            <h5>9:00 AM</h5>
+            <p>Helen Clark</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal38">
+            <h5>9:15 AM</h5>
+            <p>Daniel Lewis</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal39">
+            <h5>9:30 AM</h5>
+            <p>Alice Walker</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal40">
+            <h5>9:45 AM</h5>
+            <p>Mary Hall</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal41">
+            <h5>10:00 AM</h5>
+            <p>Robert Moore</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal42">
+            <h5>10:15 AM</h5>
+            <p>Nancy Davis</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal43">
+            <h5>10:30 AM</h5>
+            <p>Mark Wilson</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal44">
+            <h5>10:45 AM</h5>
+            <p>Carol Martinez</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal45">
+            <h5>11:00 AM</h5>
+            <p>Kevin Rodriguez</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Saturday Schedule -->
+    <div id="saturday" class="schedule-day d-none">
+      <h3>Saturday</h3>
+      <div class="row">
+        <!-- Repeat similar structure for Saturday -->
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal46">
+            <h5>9:00 AM</h5>
+            <p>Margaret Wright</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal47">
+            <h5>9:15 AM</h5>
+            <p>Thomas Harris</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal48">
+            <h5>9:30 AM</h5>
+            <p>Dorothy Lee</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal49">
+            <h5>9:45 AM</h5>
+            <p>Matthew Young</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal50">
+            <h5>10:00 AM</h5>
+            <p>Anthony King</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal51">
+            <h5>10:15 AM</h5>
+            <p>Betty Scott</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal52">
+            <h5>10:30 AM</h5>
+            <p>Shirley Green</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal53">
+            <h5>10:45 AM</h5>
+            <p>Jason Adams</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+          <div class="schedule-box" data-toggle="modal" data-target="#appointmentModal54">
+            <h5>11:00 AM</h5>
+            <p>Angela Baker</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Doctor's Weekly Schedule &copy; 2023</p>
+</footer>
+
+<!-- Modals for Monday (Repeat for other days) -->
+<div class="modal fade" id="appointmentModal1" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="appointmentModalLabel1">Appointment Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Time:</strong> 9:00 AM</p>
+        <p><strong>Patient:</strong> John Doe</p>
+        <p><strong>Details:</strong> General check-up.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-cancel" onclick="confirmCancellation(1)">Cancel Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Repeat modal structure for each appointment (appointmentModal2, appointmentModal3, etc.) -->
+
+<script>
+  function showSchedule(day) {
+    const days = document.querySelectorAll('.schedule-day');
+    days.forEach(d => d.classList.add('d-none'));
+    document.getElementById(day).classList.remove('d-none');
+  }
+
+  function confirmCancellation(appointmentId) {
+    if (confirm('Are you sure you want to cancel this appointment?')) {
+      // Code to cancel the appointment
+      alert('Appointment ' + appointmentId + ' has been cancelled.');
+      // Close the modal
+      $('#appointmentModal' + appointmentId).modal('hide');
+    }
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
