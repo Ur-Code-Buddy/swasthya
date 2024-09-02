@@ -48,14 +48,33 @@ router.post('/register', async (req, res) => {
 // API2: Add appointment
 router.post('/appointments', authenticate, async (req, res) => {
   try {
-    const appointmentData = appointmentSchema.parse(req.body);
+    // Extract the data from the request body
+    const { name, message, doctor, timing, day } = req.body;
+
+    // Validate required fields
+    if (!name || !message || !doctor || !timing || !day) {
+      return res.status(400).send({ error: 'All fields are required.' });
+    }
+
+    // Create the appointment data object
+    const appointmentData = {
+      name,
+      message,
+      doctor,
+      timing,
+      day
+    };
+
+    // Push the appointment data to the user's appointments array
     req.user.appointments.push(appointmentData);
     await req.user.save();
+
     res.status(201).send({ message: 'Appointment added successfully' });
   } catch (error) {
     res.status(400).send({ error: error.errors || error.message });
   }
 });
+
 
 // API3: Fetch appointments
 router.get('/appointments', authenticate, (req, res) => {
