@@ -73,6 +73,9 @@ router.get('/appointments', async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
+
+
+
 // API4: Fetch all appointments for a doctor
 router.get('/doctor-appointments', async (req, res) => {
   const doctorCredentials = {
@@ -82,23 +85,23 @@ router.get('/doctor-appointments', async (req, res) => {
 
   const { username, password } = req.headers;
 
+  // Check doctor credentials
   if (username !== doctorCredentials.username || password !== doctorCredentials.password) {
     return res.status(401).send({ message: 'Invalid credentials' });
   }
 
   try {
-    const usersWithAppointments = await User.find({ 'appointments.doctor': username });
+    // Fetch all appointments from the Appointment collection
+    const allAppointments = await Appointment.find();
 
-    const doctorAppointments = usersWithAppointments.reduce((appointments, user) => {
-      const userAppointments = user.appointments.filter(app => app.doctor === username);
-      return appointments.concat(userAppointments);
-    }, []);
-
-    res.status(200).send(doctorAppointments);
+    res.status(200).send(allAppointments);
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
+
+
+
 
 // API5: Verify if a user exists
 router.post('/verify-user', async (req, res) => {
