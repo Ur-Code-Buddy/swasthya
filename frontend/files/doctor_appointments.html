@@ -201,11 +201,6 @@
             <p>Problem: <span id="appointment-problem"></span></p>
             <p style="margin-bottom: 100px;"></p>
         </div>
-        <div class="btn-container">
-            <button class="btn btn-custom">Edit</button>
-            <button class="btn btn-success ml-2">Save</button>
-            <button class="btn btn-danger ml-2">Delete</button>
-        </div>
     </div>
 
     <div class="text-box">
@@ -223,79 +218,65 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Mock data
-        const mockData = [
-            {
-                "date": "2024-07-12T14:30:00Z",
-                "description": "Appointment description",
-                "doctor": "Doctor Samarpan"
-            },
-            {
-                "date": "2024-07-13T10:00:00Z",
-                "description": "Another appointment description",
-                "doctor": "Doctor Samarpan Jena"
+        // Fetch appointments data
+        fetch('https://swasthya-kycn.onrender.com/swasthya/api/doctor-appointments', {
+            method: 'GET',
+            headers: {
+                'username': 'doctorUsername',
+                'password': 'doctorPassword'
             }
-        ];
+        })
+        .then(response => response.json())
+        .then(data => {
+            const appointmentSelect = document.getElementById('appointment-select');
+            const appointmentDetails = document.getElementById('appointment-details');
+            const appointmentDoctor = document.getElementById('appointment-doctor');
+            const appointmentDate = document.getElementById('appointment-date');
+            const appointmentTime = document.getElementById('appointment-time');
+            const appointmentProblem = document.getElementById('appointment-problem');
 
-        const appointmentSelect = document.getElementById('appointment-select');
-        const appointmentDetails = document.getElementById('appointment-details');
-        const appointmentDoctor = document.getElementById('appointment-doctor');
-        const appointmentDate = document.getElementById('appointment-date');
-        const appointmentTime = document.getElementById('appointment-time');
-        const appointmentProblem = document.getElementById('appointment-problem');
-
-        function formatDateTime(dateTimeString) {
-            const date = new Date(dateTimeString);
-            return {
-                date: date.toLocaleDateString(),
-                time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-        }
-
-        function loadAppointments(data) {
-            if (data.length === 0) {
-                data = [{
-                    "date": "N/A",
-                    "description": "No upcoming appointments",
-                    "doctor": "N/A"
-                }];
+            function formatDateTime(day, timing) {
+                return {
+                    date: day,
+                    time: timing
+                };
             }
 
-            data.forEach((appointment, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = `Appointment $(index + 1)`;
-                appointmentSelect.appendChild(option);
-            });
+            function loadAppointments(appointments) {
+                if (appointments.length === 0) {
+                    appointments = [{
+                        "day": "N/A",
+                        "message": "No upcoming appointments",
+                        "doctor": "N/A",
+                        "timing": "N/A"
+                    }];
+                }
 
-            appointmentSelect.addEventListener('change', function() {
-                const selectedAppointment = data[this.value];
-                const formattedDateTime = formatDateTime(selectedAppointment.date);
-                appointmentDoctor.textContent = selectedAppointment.doctor;
-                appointmentDate.textContent = formattedDateTime.date;
-                appointmentTime.textContent = formattedDateTime.time;
-                appointmentProblem.textContent = selectedAppointment.description;
-            });
+                appointments.forEach((appointment, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `Appointment ${index + 1}`;
+                    appointmentSelect.appendChild(option);
+                });
 
-            appointmentSelect.value = 0;
-            appointmentSelect.dispatchEvent(new Event('change'));
-        }
+                appointmentSelect.addEventListener('change', function() {
+                    const selectedAppointment = appointments[this.value];
+                    const formattedDateTime = formatDateTime(selectedAppointment.day, selectedAppointment.timing);
+                    appointmentDoctor.textContent = selectedAppointment.doctor;
+                    appointmentDate.textContent = formattedDateTime.date;
+                    appointmentTime.textContent = formattedDateTime.time;
+                    appointmentProblem.textContent = selectedAppointment.message;
+                });
 
-        // Commented out fetch request for mock data
-        /*
-        fetch('/appointments')
-            .then(response => response.json())
-            .then(data => {
-                loadAppointments(data);
-            })
-            .catch(error => console.error('Error fetching appointments:', error));
-        */
-        
-        // Use mock data for now
-        loadAppointments(mockData);
+                appointmentSelect.value = 0;
+                appointmentSelect.dispatchEvent(new Event('change'));
+            }
+
+            loadAppointments(data);
+        })
+        .catch(error => console.error('Error fetching appointments:', error));
     });
 </script>
 
 </body>
 </html>
-

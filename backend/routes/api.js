@@ -63,19 +63,6 @@ router.post('/appointments', authenticate, async (req, res) => {
 });
 
 
-
-router.get('/appointments', async (req, res) => {
-  try {
-    // Fetch all appointments
-    const appointments = await Appointment.find();
-    res.status(200).send(appointments);
-  } catch (error) {
-    res.status(500).send({ error: error.message });
-  }
-});
-
-
-
 // API4: Fetch all appointments for a doctor
 router.get('/doctor-appointments', async (req, res) => {
   const doctorCredentials = {

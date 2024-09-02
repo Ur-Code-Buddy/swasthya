@@ -1,0 +1,27 @@
+# Node.js modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Directory for your models (if auto-generated or contains sensitive data)
+
+
+# Optional: Ignore any OS-specific or editor-specific files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Optional: Ignore build directories or compiled files
+dist/
+build/
