@@ -10,14 +10,6 @@ const userSchema = z.object({
   password: z.string().min(1)
 });
 
-const appointmentSchema = z.object({
-  name: z.string().optional(),
-  message: z.string().optional(),
-  doctor: z.string().optional(),
-  timing: z.string().optional(),
-  day: z.string().optional()
-});
-
 // Middleware for authentication
 const authenticate = async (req, res, next) => {
   const { username, password } = req.headers;
