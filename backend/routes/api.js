@@ -61,4 +61,36 @@ router.get('/appointments', authenticate, (req, res) => {
   res.status(200).send(req.user.appointments);
 });
 
+
+// API4: Fetch all appointments for a doctor
+router.get('/doctor-appointments', async (req, res) => {
+  // Hardcoded doctor credentials
+  const doctorCredentials = {
+    username: 'doctorUsername', // Replace with actual username
+    password: 'doctorPassword'  // Replace with actual password
+  };
+
+  const { username, password } = req.headers;
+
+  if (username !== doctorCredentials.username || password !== doctorCredentials.password) {
+    return res.status(401).send({ message: 'Invalid credentials' });
+  }
+
+  try {
+    // Find all users that have appointments with this doctor
+    const usersWithAppointments = await User.find({ 'appointments.doctor': username });
+
+    // Extract all appointments for the doctor
+    const doctorAppointments = usersWithAppointments.reduce((appointments, user) => {
+      const userAppointments = user.appointments.filter(app => app.doctor === username);
+      return appointments.concat(userAppointments);
+    }, []);
+
+    res.status(200).send(doctorAppointments);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+
 module.exports = router;
